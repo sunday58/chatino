@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -5,6 +7,17 @@ void main() {
     const FriendlyChatApp(),
   );
 }
+
+final ThemeData kIosTheme = ThemeData(
+  primarySwatch: Colors.orange,
+  primaryColor: Colors.grey[100],
+  primaryColorBrightness: Brightness.light,
+);
+
+final ThemeData kDefaultTheme = ThemeData(
+  colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
+      .copyWith(secondary: Colors.orangeAccent[400]),
+);
 
 String _name = 'David';
 
@@ -15,9 +28,12 @@ class FriendlyChatApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Chatino',
-      home: ChatScreen(),
+      theme: defaultTargetPlatform == TargetPlatform.iOS
+          ? kIosTheme
+          : kDefaultTheme,
+      home: const ChatScreen(),
     );
   }
 }
@@ -80,6 +96,7 @@ class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         title: const Text('FriendlyChat'),
+        elevation: Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0,
       ),
       body: Column(
         children: [
