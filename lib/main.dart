@@ -23,8 +23,11 @@ class FriendlyChatApp extends StatelessWidget {
 }
 
 class ChatMessage extends StatelessWidget {
-  const ChatMessage({Key? key, required this.text}) : super(key: key);
+  const ChatMessage(
+      {Key? key, required this.text, required this.animationController})
+      : super(key: key);
   final String text;
+  final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class ChatScreen extends StatefulWidget {
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
   final List<ChatMessage> _messages = [];
   final _textController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
@@ -124,6 +127,9 @@ class _ChatScreenState extends State<ChatScreen> {
     _textController.clear();
     var message = ChatMessage(
       text: text,
+      animationController: AnimationController(
+          duration: const Duration(milliseconds: 700),
+           vsync: this),
     );
     setState(() {
       _messages.insert(0, message);
